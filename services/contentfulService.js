@@ -62,6 +62,15 @@ const checkContent = (obj) => {
         obj.value = obj.content[0]?.content[0]?.value || '';
         delete obj.content;
     }
+    if (obj.nodeType === 'list-item') {
+        if (obj.content[0].nodeType !== 'paragraph') {
+            obj.content = [{
+                nodeType: 'paragraph',
+                data: {},
+                content: obj.content
+            }]
+        }
+    }
     if ('content' in obj && obj.content.length > 0) {
         for (const item of obj.content) {
             checkContent(item);
